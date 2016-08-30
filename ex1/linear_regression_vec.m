@@ -18,3 +18,8 @@ function [f,g] = linear_regression_vec(theta, X,y)
   %        Store the objective function value in 'f', and the gradient in 'g'.
   %
 %%% YOUR CODE HERE %%%
+
+  error = theta' * X - y;
+  f = sum(0.5 * error.^2);
+  g = X * error';
+  
