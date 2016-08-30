@@ -7,8 +7,6 @@ function [f,g] = logistic_regression(theta, X,y)
   %   y - The label for each example.  y(j) is the j'th example's label.
   %
 
-  m=size(X,2);
-  
   % initialize objective value and gradient.
   f = 0;
   g = zeros(size(theta));
@@ -22,3 +20,14 @@ function [f,g] = logistic_regression(theta, X,y)
   %        up the gradients (df/dtheta) for each example. Store the result in 'g'.
   %
 %%% YOUR CODE HERE %%%
+
+  for example_idx = 1:size(X, 2)
+      example = X(:,example_idx);
+      label = y(example_idx);
+      sigm = 1 / (1 + exp(-1 * theta' * example));
+      f = f - (label * log(sigm) + (1 - label) * log(1 - sigm));
+      
+      for feature_idx = 1:size(g)
+          g(feature_idx) = g(feature_idx) + example(feature_idx) * (sigm - label);
+      end
+  end
