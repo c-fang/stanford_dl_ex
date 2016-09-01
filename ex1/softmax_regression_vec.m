@@ -27,6 +27,16 @@ function [f,g] = softmax_regression(theta, X,y)
   %        Before returning g, make sure you form it back into a vector with g=g(:);
   %
 %%% YOUR CODE HERE %%%
+
+  theta = [theta zeros(785, 1)];
+  weights = exp(theta' * X)';
+  probabilities = bsxfun(@rdivide, weights, sum(weights));
+  probabilities_for_labels = probabilities(sub2ind(size(probabilities), 1:size(probabilities,1), y));
+  f = -sum(log(probabilities_for_labels));
   
+  labels_expanded = zeros(m, num_classes);
+  labels_expanded(sub2ind(size(labels_expanded), 1:m, y)) = 1;
+  g = -(X * (labels_expanded - probabilities));
+  g = g(:,1:(num_classes - 1));
   g=g(:); % make gradient a vector for minFunc
 
